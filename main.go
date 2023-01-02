@@ -48,6 +48,7 @@ func createCommits(d time.Time) error {
 		fmt.Println(err)
 
 		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			fmt.Println("err:", err)
 			return err
 		}
 
