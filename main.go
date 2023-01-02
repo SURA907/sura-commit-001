@@ -71,7 +71,7 @@ func createCommits(d time.Time) error {
 
 		commitMessage := fmt.Sprintf("commit -- %d", i)
 
-		commitDate := fmt.Sprintf("--date=%s", d.Add(time.Duration(i)*time.Minute).Format(time.RFC3339))
+		commitDate := d.Add(time.Duration(i) * time.Minute).Format(time.RFC3339)
 		cmdCommit := exec.Command("git", "commit", "-m", commitMessage, "--date", commitDate)
 
 		if errCommit := cmdCommit.Run(); errCommit != nil {
