@@ -38,8 +38,6 @@ func run() error {
 
 func createCommits(d time.Time) error {
 	filePath := fmt.Sprintf("create-%d", time.Now().UnixMilli())
-
-	fmt.Println(filePath)
 	rand.Seed(time.Now().UnixNano())
 	// 10 ~ 20
 	commitCount := rand.Intn(10) + 10
@@ -52,6 +50,7 @@ func createCommits(d time.Time) error {
 
 		if err == nil {
 			// remove file
+			fmt.Println("remove:", filePath)
 			if errRemote := os.Remove(filePath); errRemote != nil {
 				return errRemote
 			}
@@ -59,6 +58,7 @@ func createCommits(d time.Time) error {
 
 		if err == os.ErrNotExist {
 			// create file
+			fmt.Println("create:", filePath)
 			if _, errCreate := os.Create(filePath); errCreate != nil {
 				return errCreate
 			}
