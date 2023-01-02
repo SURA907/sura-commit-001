@@ -44,6 +44,9 @@ func createCommits(d time.Time) error {
 
 	for i := 0; i < commitCount; i++ {
 		_, err := os.Stat(filePath)
+
+		fmt.Println(err)
+
 		if err != nil && !errors.Is(err, os.ErrNotExist) {
 			return err
 		}
