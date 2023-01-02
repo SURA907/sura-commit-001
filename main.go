@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -45,7 +46,7 @@ func createCommits(d time.Time) error {
 
 	for i := 0; i < commitCount; i++ {
 		_, err := os.Stat(filePath)
-		if err != nil && err != os.ErrNotExist {
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
 			return err
 		}
 
@@ -69,11 +70,16 @@ func createCommits(d time.Time) error {
 		}
 
 		commitMessage := fmt.Sprintf("commit -- %d", i)
-		
 
-		cmdCommit := exec.Command("git", "commit", "-m", commitMessage, "--date=")
+		commitDate := fmt.Sprintf("--date=%s", d.Add(time.Duration(i)*time.Minute).Format(time.RFC3339))
+		cmdCommit := exec.Command("git", "commit", "-m", commitMessage, commitDate)
 
+		if errCommit := cmdCommit.Run(); errCommit != nil {
+			return errCommit
+		}
 	}
+
+	os.Remove(filePath)
 
 	return nil
 }
