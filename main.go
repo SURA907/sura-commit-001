@@ -57,7 +57,7 @@ func createCommits(d time.Time) error {
 			}
 		}
 
-		if err == os.ErrNotExist {
+		if errors.Is(err, os.ErrNotExist) {
 			// create file
 			fmt.Println("create:", filePath)
 			if _, errCreate := os.Create(filePath); errCreate != nil {
