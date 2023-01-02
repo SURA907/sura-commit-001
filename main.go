@@ -66,7 +66,7 @@ func createCommits(d time.Time) error {
 
 		cmdAdd := exec.Command("git", "add", ".")
 		if errAdd := cmdAdd.Run(); errAdd != nil {
-			return errAdd
+			return fmt.Errorf("git add: %v", errAdd)
 		}
 
 		commitMessage := fmt.Sprintf("commit -- %d", i)
@@ -75,7 +75,7 @@ func createCommits(d time.Time) error {
 		cmdCommit := exec.Command("git", "commit", "-m", commitMessage, commitDate)
 
 		if errCommit := cmdCommit.Run(); errCommit != nil {
-			return errCommit
+			return fmt.Errorf("git commit: %v", errCommit)
 		}
 	}
 
